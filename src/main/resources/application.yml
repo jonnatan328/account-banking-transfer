@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: account-banking-transfer
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 2033
+  servlet:
+    context-path: /banking-transfer
+  error:
+    whitelabel:
+      enabled: false

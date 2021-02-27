@@ -1,0 +1,32 @@
+[{
+        "channelId": "sve",
+        "serviceType": "PL01",
+        "description": " ",
+        "identId": "PL01",
+        "userOperation": "HFOLEUSR",
+        "sourceDefault": "F",
+        "cashierOperation": "119200",
+        "cashOperation": "11920",
+        "transactionConfig": [{
+                "trx": "2021",
+                "description": "Pago Planilla Individual Terceros Banistmo",
+                "lang": "es",
+                "enabled": true,
+                "trxType": "dr",
+                "rev": false,
+                "notifyCompliance": false,
+                "trustToken": false
+            },
+            {
+                "trx": "2024",
+                "description": "Pago Planilla Individual Terceros Banistmo",
+                "lang": "es",
+                "enabled": true,
+                "trxType": "cr",
+                "rev": false,
+                "notifyCompliance": false,
+                "trustToken": false
+            }
+        ]
+    }
+]

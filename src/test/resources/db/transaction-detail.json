@@ -1,0 +1,33 @@
+[
+  {
+    "cashierOperation": "888888",
+    "cashOperation": "88888",
+    "channelId": "svp",
+    "description": "Deposito a cuenta",
+    "identId": "TR01",
+    "serviceType": "TR01",
+    "sourceDefault": "F",
+    "transactionConfig": [
+      {
+        "description": "Deposito a cuenta CNBP",
+        "enabled": true,
+        "lang": "es",
+        "rev": false,
+        "trx": "6015",
+        "trxType": "tr"
+      }
+    ],
+    "userOperation": "HF1P3SVP"
+  },
+  {
+    "cashierOperation": "888888",
+    "cashOperation": "88888",
+    "channelId": "svp",
+    "description": "Deposito a cuenta",
+    "identId": "TR02",
+    "serviceType": "TR02",
+    "sourceDefault": "F",
+    "transactionConfig": [],
+    "userOperation": "HF1P3SVP"
+  }
+]

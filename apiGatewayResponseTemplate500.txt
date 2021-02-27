@@ -1,0 +1,19 @@
+#set ($errorMessageObj = $util.parseJson($input.path('$.errorMessage')))
+#if($errorMessageObj.toString().contains("code=500"))
+{
+    "rqUID":"$errorMessageObj.rqUID",
+    "status": {
+        "code":"$errorMessageObj.status.code",
+        "message":"$errorMessageObj.status.message",
+        "detail":"$errorMessageObj.status.detail"
+    }
+}
+#else
+{
+    "status": {
+        "code": "500",
+        "message": "Internal Server Error.",
+        "detail": "Has occurred an exception, please contact to helpdesk."
+    }
+}
+#end

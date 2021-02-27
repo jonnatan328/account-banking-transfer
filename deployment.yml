@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-banking-transfer
+  namespace: ctg-banking
+  labels:
+    app: account-banking-transfer
+  annotations:
+spec:
+  selector:
+    matchLabels:
+      app: account-banking-transfer
+  template:
+    metadata:
+      name: account-banking-transfer
+      labels:
+        app: account-banking-transfer
+    spec:
+      containers:
+      - name: account-banking-transfer
+        image: ctg-banistmo/account-banking-transfer:v1.0
+        resources:
+         limits:
+          memory: "1024Mi"
+          cpu: "0.2"
+        terminationMessagePath: "/dev/termination-log"
+        terminationMessagePolicy: File
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: FILES_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: payroll-files-path
+              key: paths.payroll-path
+        - name: FILES_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: payroll-files-path
+              key: paths.payroll-path
+        - name: LOG_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: payroll-files-path
+              key: paths.payroll-path
+        readinessProbe:
+          httpGet:
+              path: /payroll/api/v1/health
+              port: 2033
+          initialDelaySeconds: 20
+          timeoutSeconds: 5
+          failureThreshold: 10
+       # volumeMounts:
+        #- name: files-payroll
+         # mountPath: /files/payroll
+      #volumes:
+        #- name: files-payroll
+          #hostPath:
+            #path: /files/payroll
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: account-banking-transfer
+  namespace: ctg-banking
+  labels:
+    app: account-banking-transfer
+spec:
+  ports:
+    - name: tcp-2033-2033-j4b9q
+      protocol: TCP
+      port: 2033
+      targetPort: 2033
+  selector:
+    app: account-banking-transfer
+  type: ClusterIP
+  sessionAffinity: None
+status:
+  loadBalancer: {}

@@ -1,0 +1,35 @@
+#set ($errorMessageObj = $util.parseJson($input.path('$.errorMessage')))
+#if($errorMessageObj.toString().contains("code=400"))
+{
+    "rqUID":"$errorMessageObj.rqUID",
+    "status": {
+        "code" :"$errorMessageObj.status.code",
+        "message": "$errorMessageObj.status.message.toString()",
+        "detail": "$errorMessageObj.status.detail",
+        #set($currentSize=0)
+        #if($errorMessageObj.status.errors.size()>0)
+            "errors" :[
+                #foreach( $error in $errorMessageObj.status.errors )
+                    #if($currentSize>0)
+                    ,
+                    #end
+                    {
+                        "code" : "$error.code",
+                        "message":"$error.message",
+                        "field": "$error.field"
+                    }
+                    #set($currentSize=$currentSize+1)
+                #end
+            ]
+        #end
+    }
+}
+#else
+{
+    "status": {
+        "code": "400",
+        "message": "Bad Request.",
+        "detail": "Please verify the current input from consumer."
+    }
+}
+#end

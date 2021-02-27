@@ -1,0 +1,7 @@
+[
+  {
+    "channelId": "cnb",
+    "notifyCompliance": true,
+    "envNameNotifyTrx": "NOTIFY_TRANSACTIONS_TOPIC_ARN_CNB"
+  }
+]

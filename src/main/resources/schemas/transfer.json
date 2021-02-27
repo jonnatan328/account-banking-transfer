@@ -1,0 +1,150 @@
+{
+  "schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "definitions": {
+    "pointOfServiceData": {
+      "type": "object",
+      "properties": {
+        "posLocation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 5
+        }
+      },
+      "required": [
+        "posLocation"
+      ]
+    }
+  },
+  "properties": {
+    "rqUID": {
+      "type": "string"
+    },
+    "msgRqHdr": {
+      "type": "object",
+      "properties": {
+        "contextRqHdr": {
+          "type": "object",
+          "properties": {
+            "clientTerminalSeqNum": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 6
+            },
+            "pointOfServiceData": {
+              "$ref": "#/definitions/pointOfServiceData"
+            },
+            "channelId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 3
+            },
+            "trxCode": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4
+            },
+            "userInterface": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8
+            },
+            "sourceDefault": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2
+            },
+            "serviceType": {
+              "type": "string",
+              "maxLength": 5
+            }
+          },
+          "if": {
+            "properties": {
+              "channelId": {
+                "enum": ["cnb"]
+              }
+            },
+            "required": ["channelId"]
+          },
+          "then": {
+            "required": [
+              "clientTerminalSeqNum",
+              "pointOfServiceData",
+              "channelId"
+            ]
+          },
+          "else": {
+            "required": [
+              "channelId",
+              "serviceType"
+            ]
+          }
+        }
+      }
+    },
+    "xferInfo": {
+      "type": "object",
+      "properties": {
+        "fromAcctRef": {
+          "type": "object",
+          "properties": {
+            "acctRec": {
+              "type": "object",
+              "properties": {
+                "acctId": {
+                  "type": "string",
+                  "minLength": 9,
+                  "maxLength": 15
+                }
+              }
+            }
+          }
+        },
+        "toAcctRef": {
+          "type": "object",
+          "properties": {
+            "acctRec": {
+              "type": "object",
+              "properties": {
+                "acctId": {
+                  "type": "string",
+                  "minLength": 9,
+                  "maxLength": 15
+                }
+              }
+            }
+          }
+        },
+        "curAmt": {
+          "type": "object",
+          "properties": {
+            "amt": {
+              "type": "number",
+              "minimum": 0.01,
+              "maximum": 9999999999999.99
+            },
+            "curCode": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "transactionLabel": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dueDate": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "rqUID",
+    "msgRqHdr",
+    "xferInfo",
+    "dueDate"
+  ]
+}

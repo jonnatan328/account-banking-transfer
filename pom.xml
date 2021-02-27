@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.3</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	
+	<groupId>com.banistmo</groupId>
+	<artifactId>account-banking-transfer-v1</artifactId>
+	<version>1.0.0</version>
+	<name>account-banking-transfer-v1</name>
+	<description>Demo project for Spring Boot</description>
+	
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <junit.platform.version>1.2.0</junit.platform.version>
+        <junit.vintage.version>5.2.0</junit.vintage.version>
+        <junit5.version>5.2.0</junit5.version>
+        <surefire.version>2.22.1</surefire.version>
+        <bso.entities.version>1.0.3</bso.entities.version>
+        <cookie.runtime.version>1.0.7</cookie.runtime.version>
+        <dagger.version>2.24</dagger.version>
+        <lombok.version>1.18.8</lombok.version>
+	</properties>
+	
+	<repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <!-- yes! -->
+        <pluginRepository>
+            <id>jcenter</id>
+            <url>http://jcenter.bintray.com</url>
+        </pluginRepository>
+    </pluginRepositories>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+            <groupId>com.banistmo</groupId>
+            <artifactId>commons-bso-entities-v3</artifactId>
+            <version>${bso.entities.version}</version>
+            <exclusions>
+            	<exclusion>
+	                <groupId>com.fasterxml.jackson.jr</groupId>
+	                <artifactId>jackson-jr-objects</artifactId>
+            	</exclusion>
+            	<exclusion>
+	                <groupId>com.fasterxml.jackson.jr</groupId>
+	                <artifactId>jackson-jr-stree</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.banistmo</groupId>
+            <artifactId>commons-bso-entities-aws-impl</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.banistmo</groupId>
+            <artifactId>cookie-runtime</artifactId>
+            <version>${cookie.runtime.version}</version>
+            <exclusions>
+            	<exclusion>
+	                <groupId>com.fasterxml.jackson.jr</groupId>
+	                <artifactId>jackson-jr-objects</artifactId>
+            	</exclusion>
+            	<exclusion>
+            		<groupId>com.squareup.okhttp3</groupId>
+	                <artifactId>okhttp:jar</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+	        <groupId>com.squareup.okhttp3</groupId>
+	        <artifactId>okhttp</artifactId>
+	        <version>4.2.1</version>
+	     </dependency>
+        <dependency>
+            <groupId>com.google.dagger</groupId>
+            <artifactId>dagger</artifactId>
+            <version>${dagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.dagger</groupId>
+            <artifactId>dagger-compiler</artifactId>
+            <version>${dagger.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Test Dependencies -->
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${junit.platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit.platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit 4 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>2.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>2.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.24.5</version>
+            <scope>test</scope>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <environmentVariables>
+                        <INDICADOR>AIBT</INDICADOR>
+                        <CNB_TXN>0041A</CNB_TXN>
+                        <CNB_TXN_REV>0042A</CNB_TXN_REV>
+                    </environmentVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.google.dagger</groupId>
+                            <artifactId>dagger-compiler</artifactId>
+                            <version>${dagger.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.jfrog.buildinfo</groupId>
+                <artifactId>artifactory-maven-plugin</artifactId>
+                <version>2.6.1</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>publish</goal>
+                        </goals>
+                        <configuration>
+                            <deployProperties>
+                                <gradle>awesome</gradle>
+                            </deployProperties>
+                            <artifactory>
+                                <includeEnvVars>true</includeEnvVars>
+                                <envVarsExcludePatterns>*password*,*secret*,*key*,*token*,*passphrase*
+                                </envVarsExcludePatterns>
+                                <timeoutSec>60</timeoutSec>
+                            </artifactory>
+                            <publisher>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <contextUrl>${artifactory_contextUrl}</contextUrl>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <username>${artifactory_user}</username>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <password>${artifactory_password}</password>
+                                <excludePatterns>*-tests.jar</excludePatterns>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <repoKey>${artifactory_repo}</repoKey>
+                            </publisher>
+                            <buildInfo>
+                                <buildName>plugin-demo</buildName>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <buildNumber>${buildnumber}</buildNumber>
+                                <buildUrl>http://build-url.org</buildUrl>
+                            </buildInfo>
+                            <licenses>
+                                <autoDiscover>true</autoDiscover>
+                                <includePublishedArtifacts>false</includePublishedArtifacts>
+                                <runChecks>true</runChecks>
+                                <scopes>compile,runtime</scopes>
+                                <violationRecipients>build@organisation.com</violationRecipients>
+                            </licenses>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+		</plugins>
+	</build>
+
+</project>

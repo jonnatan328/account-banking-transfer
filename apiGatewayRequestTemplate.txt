@@ -1,0 +1,66 @@
+
+  #set( $body = $input.json("$") )
+
+
+  #define( $loop )
+    {
+    #foreach($key in $map.keySet())
+        #set( $k = $util.escapeJavaScript($key) )
+        #set( $v = $util.escapeJavaScript($map.get($key)).replaceAll("\\'", "'") )
+        "$k":
+          "$v"
+          #if( $foreach.hasNext ) , #end
+    #end
+    }
+  #end
+
+  {
+    "body": $body,
+    "method": "$context.httpMethod",
+    "principalId": "$context.authorizer.principalId",
+    "stage": "$context.stage",
+
+    "cognitoPoolClaims" : {
+
+       "sub": "$context.authorizer.claims.sub"
+    },
+
+    #set( $map = $context.authorizer )
+    "enhancedAuthContext": $loop,
+
+    #set( $map = $input.params().header )
+    "headers": $loop,
+
+    #set( $map = $input.params().querystring )
+    "query": $loop,
+
+    #set( $map = $input.params().path )
+    "path": $loop,
+
+    #set( $map = $context.identity )
+    "identity": $loop,
+
+    #set( $map = $stageVariables )
+    "stageVariables": $loop,
+
+    "requestContext": {
+            "accountId": "$context.identity.accountId",
+            "apiId": "$context.apiId",
+            "resourceId": "$context.resourceId",
+            "apiKey": "$context.identity.apiKey",
+            "httpMethod": "$context.httpMethod",
+            "stage": "$context.stage",
+            "sourceIp": "$context.identity.sourceIp",
+            "userAgent": "$context.identity.userAgent",
+            "requestId": "$context.requestId",
+            "resourcePath": "$context.resourcePath",
+            "path": "$context.path",
+            "protocol": "$context.protocol",
+            "domainName": "$context.domainName",
+            "requestTime": "$context.requestTime",
+            "requestTimeEpoch": $context.requestTimeEpoch,
+            "xrayTraceId": "$context.xrayTraceId"
+    }
+  }
+
+

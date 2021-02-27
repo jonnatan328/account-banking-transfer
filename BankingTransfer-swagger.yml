@@ -1,0 +1,306 @@
+swagger: "2.0"
+info:
+  description: "API para transferencias bancarias."
+  version: "1.0.2"
+  title: "Transferencia Bancarias API"
+  contact:
+    email: "steffen.jeff@banistmo.com"
+tags:
+  - name: "account"
+schemes:
+  - "https"
+paths:
+  /v1/accounts/transfer:
+    post:
+      tags:
+        - "account"
+      summary: "Realiza transferencias bancarias"
+      description: ""
+      operationId: "addTransfer"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Datos para la transferencia bancaria"
+        required: true
+        schema:
+          $ref: "#/definitions/BankingTransferRQ"
+      responses:
+        200:
+          description: Operación exitosa
+          schema:
+            $ref: "#/definitions/BankingTransferRS"
+        400:
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorRS"
+        500:
+          description: Internal server error.
+          schema:
+            $ref: "#/definitions/ErrorRS"
+        502:
+          description: Bad Gateway error.
+          schema:
+            $ref: "#/definitions/ErrorRS"
+        504:
+          description: Gateway Timeout error.
+          schema:
+            $ref: "#/definitions/ErrorRS"
+    delete:
+      tags:
+        - "account"
+      summary: "Realiza rollback transferencias bancarias"
+      description: ""
+      operationId: "addReverseTransfer"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Datos para el reverso de transferencia bancaria"
+        required: true
+        schema:
+          $ref: "#/definitions/BankingTransferReverseRQ"
+      responses:
+        200:
+          description: Operación exitosa
+          schema:
+            $ref: "#/definitions/BankingTransferRS"
+        400:
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorRS"
+        500:
+          description: Internal server error.
+          schema:
+            $ref: "#/definitions/ErrorRS"
+        502:
+          description: Bad Gateway error.
+          schema:
+            $ref: "#/definitions/ErrorRS"
+        504:
+          description: Gateway Timeout error.
+          schema:
+            $ref: "#/definitions/ErrorRS"
+
+definitions:
+  Extension:
+    type: "object"
+    properties:
+      idExtension:
+        type: "string"
+      valueExtension:
+        type: "string"
+
+  Errors:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      message:
+        type: "string"
+      field:
+        type: "string"
+
+  Status:
+    description: Estado de la respuesta
+    type: "object"
+    properties:
+      code:
+        description: Codigo del estado HTTP.
+        type: integer
+      message:
+        description: Mensaje del estado HTTP.
+        type: string
+      detail:
+        description: Detalle del estado
+        type: string
+      errors:
+        type: "array"
+        items:
+          $ref: "#/definitions/Errors"
+
+  AcctRec:
+    type: "object"
+    required:
+      - "acctId"
+    properties:
+      acctId:
+        type: "string"
+        minLength: 1
+        maxLength: 10
+
+  CurAmt:
+    description: Objeto de datos del monto a transferir
+    type: object
+    properties:
+      amt:
+        description: monto
+        type: number
+      curCode:
+        description: Moneda
+        type: string
+
+  XfterInfo:
+    type: "object"
+    required:
+      - "toAcctRef"
+      - "curAmt"
+    properties:
+      fromAcctRef:
+        type: "object"
+        properties:
+          acctRec:
+            $ref: '#/definitions/AcctRec'
+      toAcctRef:
+        type: "object"
+        properties:
+          acctRec:
+            $ref: '#/definitions/AcctRec'
+      curAmt:
+        $ref: '#/definitions/CurAmt'
+
+  RevReasonCode:
+    type: "object"
+    properties:
+      revReasonCodeSource:
+        type: "string"
+      revReasonCodeValue:
+        type: "string"
+
+  XferRqMsg:
+    type: "object"
+    properties:
+      revRqUID:
+        type: "string"
+      xferInfo:
+        $ref: '#/definitions/XfterInfo'
+
+
+  ErrorRS:
+    description: Objeto que contiene la información del error
+    type: object
+    properties:
+      rqUID:
+        description: Identificador único de la transacción que permite llevar una traza de la operación
+        type: "string"
+      status:
+        $ref: '#/definitions/Status'
+
+  PointOfServiceData:
+    type: "object"
+    required:
+      - "postLocation"
+    properties:
+      postLocation:
+        type: "string"
+        minLength: 1
+        maxLength: 5
+
+  ContextRqHdr:
+    type: "object"
+    required:
+      - "serviceType"
+      - "channelId"
+    properties:
+      clientTerminalSeqNum:
+        type: "string"
+        minLength: 1
+        maxLength: 6
+      pointOfServiceData:
+        $ref: '#/definitions/PointOfServiceData'
+      serviceType:
+        description: Identificador de servicio
+        type: "string"
+        maxLength: 5
+      trxCode:
+        description: Codigo de transaccion
+        type: "string"
+        minLength: 1
+        maxLength: 4
+      userInterface:
+        type: "string"
+        minLength: 1
+        maxLength: 8
+      channelId:
+        description: Canal que ejecuta el servicio
+        type: "string"
+        minLength: 1
+        maxLength: 3
+
+  MsgRqHdr:
+    type: "object"
+    required:
+      - "contextRqHr"
+    properties:
+      contextRqHr:
+        $ref: '#/definitions/ContextRqHdr'
+
+  BankingTransferRQ:
+    type: "object"
+    required:
+      - "rqUID"
+      - "msgRqHdr"
+      - "xferInfo"
+      - "dueDate"
+    properties:
+      rqUID:
+        type: "string"
+      msgRqHdr:
+        $ref: '#/definitions/MsgRqHdr'
+      xferInfo:
+        $ref: '#/definitions/XfterInfo'
+      dueDate:
+        type: "string"
+      transactionLabel:
+        type: "string"
+      extensions:
+        type: "array"
+        items:
+          $ref: "#/definitions/Extension"
+
+
+  BankingTransferRS:
+    description: Objeto de respuesta de la transferencia bancaria.
+    type: object
+    properties:
+      rqUID:
+        description: Identificador único de la transacción que permite llevar una traza de la operación.
+        type: string
+      status:
+        $ref: '#/definitions/Status'
+      xferRec:
+        type: "object"
+        properties:
+          xferId:
+            type: "string"
+      svcIdent:
+        type: "string"
+
+  BankingTransferReverseRQ:
+    type: "object"
+    required:
+      - "rqUID"
+      - "msgRqHdr"
+      - "revReasonCode"
+      - "xferRqMsg"
+    properties:
+      rqUID:
+        type: "string"
+      msgRqHdr:
+        $ref: '#/definitions/MsgRqHdr'
+      revReasonCode:
+        $ref: '#/definitions/RevReasonCode'
+      xferRqMsg:
+        $ref: '#/definitions/XferRqMsg'
+      dueDate:
+        type: "string"
+      extensions:
+        type: "array"
+        items:
+          $ref: "#/definitions/Extension"
